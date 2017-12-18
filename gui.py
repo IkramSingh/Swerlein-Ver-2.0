@@ -17,9 +17,7 @@ import wx.xrc
 class Swerlein ( wx.Frame ):
 	
 	def __init__( self, parent ):
-                self.Version = "(Ver 2.0)"
-                self.Author = "Ikram Singh"
-		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"Swerlein "+self.Version+" Author: "+str(self.Author), pos = wx.DefaultPosition, size = wx.Size( 526,501 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
+		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"Swerlein (Ver 2.0)", pos = wx.DefaultPosition, size = wx.Size( 526,501 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
 		
 		self.SetSizeHintsSz( wx.DefaultSize, wx.DefaultSize )
 		self.SetFont( wx.Font( wx.NORMAL_FONT.GetPointSize(), 70, 90, 90, False, wx.EmptyString ) )
@@ -109,12 +107,6 @@ class Swerlein ( wx.Frame ):
 		
 		gSizer6.Add( self.MEAN, 0, wx.ALL, 5 )
 		
-## 		self.memory = wx.CheckBox( self, wx.ID_ANY, u"Extract memory", wx.DefaultPosition, wx.DefaultSize, 0 )
-## 		self.memory.SetFont( wx.Font( wx.NORMAL_FONT.GetPointSize(), 70, 90, 92, False, wx.EmptyString ) )
-## 		self.memory.SetForegroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_BTNTEXT ) )
-## 		
-## 		gSizer6.Add( self.memory, 0, wx.ALL, 5 )
-		
 		
 		gSizer4.Add( gSizer6, 1, wx.EXPAND, 5 )
 		
@@ -138,28 +130,45 @@ class Swerlein ( wx.Frame ):
 		
 		gSizer3.Add( self.ForceParameters, 0, wx.ALL, 5 )
 		
-                gSizer5 = wx.GridSizer( 0, 1, 0, 0 )
-                
-		self.m_staticText100 = wx.StaticText( self, wx.ID_ANY, u"Force Freq", wx.DefaultPosition, wx.DefaultSize, 0 )
-		self.m_staticText100.Wrap( -1 )
-		self.m_staticText100.SetFont( wx.Font( wx.NORMAL_FONT.GetPointSize(), 70, 90, 92, False, wx.EmptyString ) )
-		self.m_staticText100.SetForegroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_BTNTEXT ) )
-                gSizer3.Add( self.m_staticText100, 0, wx.ALL|wx.ALIGN_CENTER_HORIZONTAL, 5 )
-                
-                self.ForceFreq = wx.TextCtrl( self, wx.ID_ANY, u"0.00", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText7 = wx.StaticText( self, wx.ID_ANY, u"Force Freq", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText7.Wrap( -1 )
+		self.m_staticText7.SetFont( wx.Font( wx.NORMAL_FONT.GetPointSize(), 70, 90, 92, False, wx.EmptyString ) )
+		self.m_staticText7.SetForegroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_BTNTEXT ) )
+		
+		gSizer3.Add( self.m_staticText7, 0, wx.ALL|wx.ALIGN_CENTER_HORIZONTAL, 5 )
+		
+		self.ForceFreq = wx.TextCtrl( self, wx.ID_ANY, u"0.00", wx.DefaultPosition, wx.DefaultSize, 0 )
 		gSizer3.Add( self.ForceFreq, 0, wx.ALL|wx.ALIGN_CENTER_HORIZONTAL, 5 )
-                
+		
+		
 		gSizer4.Add( gSizer3, 1, wx.EXPAND, 5 )
 		
 		
 		self.SetSizer( gSizer4 )
 		self.Layout()
+		self.MenuBar = wx.MenuBar( 0 )
+		self.File = wx.Menu()
+		self.About = wx.MenuItem( self.File, wx.ID_ANY, u"About", wx.EmptyString, wx.ITEM_NORMAL )
+		self.File.AppendItem( self.About )
+		
+		self.MenuBar.Append( self.File, u"File" ) 
+		
+		self.Validation = wx.Menu()
+		self.CodeValidation = wx.MenuItem( self.Validation, wx.ID_ANY, u"Code Validation", wx.EmptyString, wx.ITEM_NORMAL )
+		self.Validation.AppendItem( self.CodeValidation )
+		
+		self.MenuBar.Append( self.Validation, u"Validation" ) 
+		
+		self.SetMenuBar( self.MenuBar )
+		
 		
 		self.Centre( wx.BOTH )
 		
 		# Connect Events
 		self.RunButton.Bind( wx.EVT_BUTTON, self.RunFunc )
 		self.StopButton.Bind( wx.EVT_BUTTON, self.StopFunc )
+		self.Bind( wx.EVT_MENU, self.AboutOnMenuSelection, id = self.About.GetId() )
+		self.Bind( wx.EVT_MENU, self.QueryValidationOnMenuSelection, id = self.CodeValidation.GetId() )
 	
 	def __del__( self ):
 		pass
@@ -171,5 +180,82 @@ class Swerlein ( wx.Frame ):
 	
 	def StopFunc( self, event ):
 		event.Skip()
+	
+	def AboutOnMenuSelection( self, event ):
+		event.Skip()
+	
+	def QueryValidationOnMenuSelection( self, event ):
+		event.Skip()
+	
+
+###########################################################################
+## Class About
+###########################################################################
+
+class About ( wx.Dialog ):
+	
+	def __init__( self, parent ):
+		wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = u"About", pos = wx.DefaultPosition, size = wx.Size( 269,151 ), style = wx.DEFAULT_DIALOG_STYLE )
+		
+		self.SetSizeHintsSz( wx.DefaultSize, wx.DefaultSize )
+		
+		gSizer6 = wx.GridSizer( 0, 1, 0, 0 )
+		
+		self.m_staticText10 = wx.StaticText( self, wx.ID_ANY, u"Program: Swerlein", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText10.Wrap( -1 )
+		gSizer6.Add( self.m_staticText10, 0, wx.ALL, 5 )
+		
+		self.m_staticText12 = wx.StaticText( self, wx.ID_ANY, u"Version: 2.0", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText12.Wrap( -1 )
+		gSizer6.Add( self.m_staticText12, 0, wx.ALL, 5 )
+		
+		self.m_staticText13 = wx.StaticText( self, wx.ID_ANY, u"Author: Ikram Singh", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText13.Wrap( -1 )
+		gSizer6.Add( self.m_staticText13, 0, wx.ALL, 5 )
+		
+		self.m_staticText14 = wx.StaticText( self, wx.ID_ANY, u"MSL @ Callaghan Innovation", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText14.Wrap( -1 )
+		gSizer6.Add( self.m_staticText14, 0, wx.ALL, 5 )
+		
+		
+		self.SetSizer( gSizer6 )
+		self.Layout()
+		
+		self.Centre( wx.BOTH )
+	
+	def __del__( self ):
+		pass
+	
+
+###########################################################################
+## Class CodeValidation
+###########################################################################
+
+class CodeValidation ( wx.Frame ):
+	
+	def __init__( self, parent ):
+		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = wx.EmptyString, pos = wx.DefaultPosition, size = wx.Size( 129,180 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
+		
+		self.SetSizeHintsSz( wx.DefaultSize, wx.DefaultSize )
+		
+		gSizer4 = wx.GridSizer( 0, 1, 0, 0 )
+		
+		self.QueryValidate = wx.CheckBox( self, wx.ID_ANY, u"Query Validate", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.QueryValidate.SetValue(True) 
+		self.QueryValidate.SetFont( wx.Font( wx.NORMAL_FONT.GetPointSize(), 70, 90, 92, False, wx.EmptyString ) )
+		
+		gSizer4.Add( self.QueryValidate, 0, wx.ALL, 5 )
+		
+		self.Validate = wx.Button( self, wx.ID_ANY, u"Validate", wx.DefaultPosition, wx.DefaultSize, 0 )
+		gSizer4.Add( self.Validate, 0, wx.ALL, 5 )
+		
+		
+		self.SetSizer( gSizer4 )
+		self.Layout()
+		
+		self.Centre( wx.BOTH )
+	
+	def __del__( self ):
+		pass
 	
 

@@ -16,6 +16,7 @@ import time
 import datetime
 import winsound
 import visa
+
 #inherit from the MainFrame created in wxFowmBuilder and create CalcFrame
 class CalcFrame(gui.Swerlein):
     
@@ -84,8 +85,13 @@ class CalcFrame(gui.Swerlein):
 
     def StopFunc(self,event):
         alg.reset(self)
-            
- 
+           
+    def AboutOnMenuSelection( self, event ):
+        gui.About(None).Show(True)
+        
+    def QueryValidationOnMenuSelection( self, event ):
+        print("Query")
+
 #mandatory in wx, create an app, False stands for not deteriction stdin/stdout
 #refer manual for details
 app = wx.App(False)
