@@ -70,7 +70,7 @@ class CalcFrame(gui.Swerlein):
         #[0.11,0.179,0.201,0.250,0.293,0.001,0.023,0.041,0.065,0.084,0.321,0.369,0.444,0.512,0.583,0.607,0.722,0.821,0.908,0.937,1.00,1.102,1.142]
         for v in voltage_list:
             if self.CodeValidation.GetValue()==True:
-                query_file = open("Code_Validation"+self.Version+str(self.date)+".txt","a") #Create code_validation in txt file.
+                query_file = open("Code_Validation (Ver 2.0)"+str(self.date)+".txt","a") #Create code_validation in txt file.
                 query_file.write("\n ---------------------"+str(v)+"V "+str(self.date)+"---------------------\n")
                 query_file.close()
             supply.write("OUT "+str(v)+"V,200.0HZ")
@@ -85,12 +85,14 @@ class CalcFrame(gui.Swerlein):
 
     def StopFunc(self,event):
         alg.reset(self)
-           
+         
     def AboutOnMenuSelection( self, event ):
         gui.About(None).Show(True)
         
-    def QueryValidationOnMenuSelection( self, event ):
-        print("Query")
+    def CodeValidationOnMenuSelection( self, event ):
+        CodeValidation = gui.CodeValidation(None)
+        CodeValidation.Show(True)
+        print(CodeValidation.QueryValidate.GetValue())
 
 #mandatory in wx, create an app, False stands for not deteriction stdin/stdout
 #refer manual for details

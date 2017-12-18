@@ -154,8 +154,8 @@ class Swerlein ( wx.Frame ):
 		self.MenuBar.Append( self.File, u"File" ) 
 		
 		self.Validation = wx.Menu()
-		self.CodeValidation = wx.MenuItem( self.Validation, wx.ID_ANY, u"Code Validation", wx.EmptyString, wx.ITEM_NORMAL )
-		self.Validation.AppendItem( self.CodeValidation )
+		self.CodeValidate = wx.MenuItem( self.Validation, wx.ID_ANY, u"Code Validate", wx.EmptyString, wx.ITEM_NORMAL )
+		self.Validation.AppendItem( self.CodeValidate )
 		
 		self.MenuBar.Append( self.Validation, u"Validation" ) 
 		
@@ -168,7 +168,7 @@ class Swerlein ( wx.Frame ):
 		self.RunButton.Bind( wx.EVT_BUTTON, self.RunFunc )
 		self.StopButton.Bind( wx.EVT_BUTTON, self.StopFunc )
 		self.Bind( wx.EVT_MENU, self.AboutOnMenuSelection, id = self.About.GetId() )
-		self.Bind( wx.EVT_MENU, self.QueryValidationOnMenuSelection, id = self.CodeValidation.GetId() )
+		self.Bind( wx.EVT_MENU, self.QueryValidationOnMenuSelection, id = self.CodeValidate.GetId() )
 	
 	def __del__( self ):
 		pass
@@ -228,10 +228,10 @@ class About ( wx.Dialog ):
 	
 
 ###########################################################################
-## Class CodeValidation
+## Class CodeValidate
 ###########################################################################
 
-class CodeValidation ( wx.Frame ):
+class CodeValidate ( wx.Frame ):
 	
 	def __init__( self, parent ):
 		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = wx.EmptyString, pos = wx.DefaultPosition, size = wx.Size( 129,180 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
