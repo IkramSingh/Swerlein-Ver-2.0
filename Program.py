@@ -16,7 +16,7 @@ import time
 import datetime
 import winsound
 import visa
-
+    
 #inherit from the MainFrame created in wxFowmBuilder and create CalcFrame
 class CalcFrame(gui.Swerlein):
     
@@ -29,6 +29,7 @@ class CalcFrame(gui.Swerlein):
         except Exception:
             pass
         gui.Swerlein.__init__(self,parent)
+        self.CodeValidation = gui.CodeValidation(None) #Create new code validation frame. All options set to False by default.
 
     def RunFunc(self,event):
         #Create a new workbook in Excel.
@@ -89,10 +90,9 @@ class CalcFrame(gui.Swerlein):
     def AboutOnMenuSelection( self, event ):
         gui.About(None).Show(True)
         
-    def CodeValidationOnMenuSelection( self, event ):
-        CodeValidation = gui.CodeValidation(None)
-        CodeValidation.Show(True)
-        print(CodeValidation.QueryValidate.GetValue())
+    def QueryValidationOnMenuSelection( self, event ):
+        self.CodeValidation.Show(True)
+        print(self.CodeValidation.QueryValidate.GetValue())
 
 #mandatory in wx, create an app, False stands for not deteriction stdin/stdout
 #refer manual for details

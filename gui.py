@@ -118,12 +118,6 @@ class Swerlein ( wx.Frame ):
 		
 		gSizer3 = wx.GridSizer( 0, 1, 0, 0 )
 		
-		self.CodeValidation = wx.CheckBox( self, wx.ID_ANY, u"Code Validation", wx.DefaultPosition, wx.DefaultSize, 0 )
-		self.CodeValidation.SetFont( wx.Font( wx.NORMAL_FONT.GetPointSize(), 70, 90, 92, False, wx.EmptyString ) )
-		self.CodeValidation.SetForegroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_BTNTEXT ) )
-		
-		gSizer3.Add( self.CodeValidation, 0, wx.ALL, 5 )
-		
 		self.ForceParameters = wx.CheckBox( self, wx.ID_ANY, u"Force Parameters", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.ForceParameters.SetFont( wx.Font( wx.NORMAL_FONT.GetPointSize(), 70, 90, 92, False, wx.EmptyString ) )
 		self.ForceParameters.SetForegroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_BTNTEXT ) )
@@ -195,7 +189,7 @@ class Swerlein ( wx.Frame ):
 class About ( wx.Dialog ):
 	
 	def __init__( self, parent ):
-		wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = u"About", pos = wx.DefaultPosition, size = wx.Size( 269,151 ), style = wx.DEFAULT_DIALOG_STYLE )
+		wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = u"About", pos = wx.DefaultPosition, size = wx.Size( 269,269 ), style = wx.DEFAULT_DIALOG_STYLE )
 		
 		self.SetSizeHintsSz( wx.DefaultSize, wx.DefaultSize )
 		
@@ -228,20 +222,19 @@ class About ( wx.Dialog ):
 	
 
 ###########################################################################
-## Class CodeValidate
+## Class CodeValidation
 ###########################################################################
 
-class CodeValidate ( wx.Frame ):
+class CodeValidation ( wx.Frame ):
 	
 	def __init__( self, parent ):
-		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = wx.EmptyString, pos = wx.DefaultPosition, size = wx.Size( 129,180 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
+		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = wx.EmptyString, pos = wx.DefaultPosition, size = wx.Size( 250,200 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
 		
 		self.SetSizeHintsSz( wx.DefaultSize, wx.DefaultSize )
 		
 		gSizer4 = wx.GridSizer( 0, 1, 0, 0 )
 		
 		self.QueryValidate = wx.CheckBox( self, wx.ID_ANY, u"Query Validate", wx.DefaultPosition, wx.DefaultSize, 0 )
-		self.QueryValidate.SetValue(True) 
 		self.QueryValidate.SetFont( wx.Font( wx.NORMAL_FONT.GetPointSize(), 70, 90, 92, False, wx.EmptyString ) )
 		
 		gSizer4.Add( self.QueryValidate, 0, wx.ALL, 5 )
@@ -254,8 +247,16 @@ class CodeValidate ( wx.Frame ):
 		self.Layout()
 		
 		self.Centre( wx.BOTH )
+		
+		# Connect Events
+		self.Validate.Bind( wx.EVT_BUTTON, self.ValidateOnButtonClick )
 	
 	def __del__( self ):
 		pass
+	
+	
+	# Virtual event handlers, overide them in your derived class
+	def ValidateOnButtonClick( self, event ):
+		event.Skip()
 	
 

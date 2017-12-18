@@ -15,7 +15,7 @@ ws = wb.active
 
 def FNFreq(self,Expect):
     self.instrument.write("TARM HOLD;LFILTER ON;LEVEL 0,DC;FSOURCE ACDCV")
-    if self.CodeValidation.GetValue()==True:
+    if self.CodeValidation.QueryValidate.GetValue()==True:
         tarm = str(self.instrument.query('TARM?')) #Check to see if 3458A is set to 'HOLD' mode
         query_file = open("Code_Validation (Ver 2.0)"+str(self.date)+".txt","a") #Store TARM? validation in txt file.
         query_file.write("\nQuery : TARM? = " + tarm)
@@ -130,7 +130,7 @@ def reset(self):
     self.instrument.write('DISP OFF, RESET')
     self.instrument.write('RESET')
     self.instrument.write('end 2')
-    if self.CodeValidation.GetValue()==True:
+    if self.CodeValidation.QueryValidate.GetValue()==True:
         end = str(self.instrument.query('END?')) #Check to see if 3458A is set to 'END' mode
         query_file = open("Code_Validation (Ver 2.0)"+str(self.date)+".txt","a") #Store END? validation in txt file.
         query_file.write("\nQuery : END? = " + end)
@@ -224,7 +224,7 @@ def run(self,Nharm_set,Nbursts_set,Acdc,Ac,MeanV,row_inc,filename):
         #Freq = input("Input signal frequency: ")
         Freq=float(self.ForceFreq.GetValue()) #Forced frequency for testing.
         RMS = float(self.instrument.query('ACV')) #read value of AC voltage
-        if self.CodeValidation.GetValue()==True:
+        if self.CodeValidation.QueryValidate.GetValue()==True:
             func = str(self.instrument.query('FUNC?')) #Check to see if 3458A is set to 'ACV' mode
             query_file = open("Code_Validation (Ver 2.0)"+str(self.date)+".txt","a") #Store FUNC? validation in txt file.
             query_file.write("\nQuery : FUNC? = " + func)
@@ -268,21 +268,21 @@ def run(self,Nharm_set,Nbursts_set,Acdc,Ac,MeanV,row_inc,filename):
             query_file.write("---> 3458A Not Set To DCV Mode With Range And RMS="+str(RMS)+". Doesnt Match With Python.\n")
         query_file.close()
     self.instrument.write('APER '+str(Aper))
-    if self.CodeValidation.GetValue()==True:
+    if self.CodeValidation.QueryValidate.GetValue()==True:
         aper = float(self.instrument.query('APER?')) #Check to see if 3458A is set to 'APER' mode
         query_file = open("Code_Validation (Ver 2.0)"+str(self.date)+".txt","a") #Store APER? validation in txt file.
         query_file.write("\nQuery : APER? = " + str(aper) + " \n")
         query_file.write("---> 3458A Compare if APER? matches with Python="+str(Aper) +"\n")
         query_file.close()
     self.instrument.write('TIMER '+str(Tsamp))
-    if self.CodeValidation.GetValue()==True:
+    if self.CodeValidation.QueryValidate.GetValue()==True:
         timer = float(self.instrument.query('TIMER?')) #Check to see if 3458A is set to 'TIMER' mode
         query_file = open("Code_Validation (Ver 2.0)"+str(self.date)+".txt","a") #Store TIMER? validation in txt file.
         query_file.write("\nQuery : TIMER? = " + str(timer) + " \n")
         query_file.write("---> 3458A Compare if TIMER? matches with Python="+str(Tsamp) +"\n")
         query_file.close()
     self.instrument.write('NRDGS '+str(Num)+',TIMER')
-    if self.CodeValidation.GetValue()==True:
+    if self.CodeValidation.QueryValidate.GetValue()==True:
         nrdgs = str(self.instrument.query('NRDGS?')) #Check to see if 3458A is set to 'NRDGS' mode
         query_file = open("Code_Validation (Ver 2.0)"+str(self.date)+".txt","a") #Store NRDGS? validation in txt file.
         query_file.write("\nQuery : NRDGS? = " + nrdgs)
@@ -294,7 +294,7 @@ def run(self,Nharm_set,Nbursts_set,Acdc,Ac,MeanV,row_inc,filename):
     #print("TSAMP IS "+str(Tsamp))
     #self.instrument.write('SWEEP '+str(Tsamp)+','+str(Num))
     self.instrument.write('TRIG LEVEL;LEVEL 0,DC;DELAY 0;LFILTER ON')
-    if self.CodeValidation.GetValue()==True:
+    if self.CodeValidation.QueryValidate.GetValue()==True:
         trig = str(self.instrument.query('TRIG?')) #Check to see if 3458A is set to 'TRIG' mode
         query_file = open("Code_Validation (Ver 2.0)"+str(self.date)+".txt","a") #Store TRIG? validation in txt file.
         query_file.write("\nQuery : TRIG? = " + trig)
@@ -328,7 +328,7 @@ def run(self,Nharm_set,Nbursts_set,Acdc,Ac,MeanV,row_inc,filename):
             query_file.write("---> 3458A LFILTER? Does Not Match Python \n")
         query_file.close()
     self.instrument.write('NRDGS '+str(Num)+',TIMER')
-    if self.CodeValidation.GetValue()==True:
+    if self.CodeValidation.QueryValidate.GetValue()==True:
         nrdgs = str(self.instrument.query('NRDGS?')) #Check to see if 3458A is set to 'NRDGS' mode
         query_file = open("Code_Validation (Ver 2.0)"+str(self.date)+".txt","a") #Store NRDGS? validation in txt file.
         query_file.write("\nQuery : NRDGS? = " + nrdgs)
@@ -468,14 +468,14 @@ def run(self,Nharm_set,Nbursts_set,Acdc,Ac,MeanV,row_inc,filename):
         self.instrument.write('DISP OFF,MEASURING')
         Delay=float(I)/Nbursts/Freq+(1e-6)
         self.instrument.write('DELAY '+str(Delay))
-        if self.CodeValidation.GetValue()==True:
+        if self.CodeValidation.QueryValidate.GetValue()==True:
             delay = str(self.instrument.query('DELAY?')) #Check to see if 3458A is set to 'DELAY' mode
             query_file = open("Code_Validation (Ver 2.0)"+str(self.date)+".txt","a") #Store DELAY? validation in txt file.
             query_file.write("\nQuery : DELAY? = " + delay)
             query_file.write("---> 3458A Compare if DELAY? With Python Delay="+str(Delay)+"\n")
             query_file.close()
         self.instrument.write('TIMER '+str(Tsamp))
-        if self.CodeValidation.GetValue()==True:
+        if self.CodeValidation.QueryValidate.GetValue()==True:
             timer = float(self.instrument.query('TIMER?')) #Check to see if 3458A is set to 'TIMER' mode
             query_file = open("Code_Validation (Ver 2.0)"+str(self.date)+".txt","a") #Store TIMER? validation in txt file.
             query_file.write("\nQuery : TIMER? = " + str(timer) + " \n")
@@ -485,7 +485,7 @@ def run(self,Nharm_set,Nbursts_set,Acdc,Ac,MeanV,row_inc,filename):
         #make measuremnts
         self.instrument.write('MEM FIFO;MFORMAT DINT') #first in first out for memeory 
         mem = str(self.instrument.query('MEM?')) #Check to see if 3458A is set to 'MEM' mode
-        if self.CodeValidation.GetValue()==True:
+        if self.CodeValidation.QueryValidate.GetValue()==True:
             query_file = open("Code_Validation (Ver 2.0)"+str(self.date)+".txt","a") #Store MEM? validation in txt file.
             query_file.write("\nQuery : MEM? = " + mem)
             if mem[0]==str(2):
@@ -504,7 +504,7 @@ def run(self,Nharm_set,Nbursts_set,Acdc,Ac,MeanV,row_inc,filename):
         
         #clears memeory, sets to 4 bytes per reading
         self.instrument.write('TARM SGL')
-        if self.CodeValidation.GetValue()==True:
+        if self.CodeValidation.QueryValidate.GetValue()==True:
             tarm1 = str(self.instrument.query('TARM?')) #Check to see if 3458A is set to 'TARM' mode
             query_file = open("Code_Validation (Ver 2.0)"+str(self.date)+".txt","a") #Store TARM? validation in txt file.
             query_file.write("\nQuery : TARM? = " + tarm1)
@@ -522,7 +522,7 @@ def run(self,Nharm_set,Nbursts_set,Acdc,Ac,MeanV,row_inc,filename):
         
         if MeanV==True:
             self.instrument.write('OFORMAT ASCII')
-            if self.CodeValidation.GetValue()==True:
+            if self.CodeValidation.QueryValidate.GetValue()==True:
                 oformat = str(self.instrument.query('OFORMAT?')) #Check to see if 3458A is set to 'OFORMAT' mode
                 query_file = open("Code_Validation (Ver 2.0)"+str(self.date)+".txt","a") #Store OFORMAT? validation in txt file.
                 query_file.write("\nQuery : OFORMAT? = " + oformat)
