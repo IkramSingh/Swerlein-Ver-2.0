@@ -3,21 +3,30 @@ import wx
  
 import gui
 import SwerleinFreq as alg
-import numpy as np
+#import numpy as np
 import matplotlib
 matplotlib.use('WXAgg')
-from matplotlib.figure import Figure
-from matplotlib.backends.backend_wxagg import \
-        FigureCanvasWxAgg as FigCanvas, \
-        NavigationToolbar2WxAgg as NavigationToolbar
+#from matplotlib.figure import Figure
+#from matplotlib.backends.backend_wxagg import \
+#        FigureCanvasWxAgg as FigCanvas, \
+#        NavigationToolbar2WxAgg as NavigationToolbar
 from openpyxl import Workbook
 from openpyxl import load_workbook
-import time
+#import time
 import datetime
 import winsound
 import visa
-    
-#inherit from the MainFrame created in wxFowmBuilder and create CalcFrame
+
+#Inherit from the CodeValidation Frame in gui.py.
+class CodeValid(gui.CodeValidation):
+    def __init__(self,parent):
+        gui.CodeValidation.__init__(self,parent)
+
+    def ValidateOnButtonClick(self, event):
+        print(self.QueryValidate.GetValue())
+
+       
+#Inherit from the Swerlein Frame created in gui.py.
 class CalcFrame(gui.Swerlein):
     
     #constructor
@@ -29,7 +38,7 @@ class CalcFrame(gui.Swerlein):
         except Exception:
             pass
         gui.Swerlein.__init__(self,parent)
-        self.CodeValidation = gui.CodeValidation(None) #Create new code validation frame. All options set to False by default.
+        self.CodeValidation = CodeValid(None) #Create new code validation frame. All options set to False by default.
 
     def RunFunc(self,event):
         #Create a new workbook in Excel.
@@ -88,11 +97,11 @@ class CalcFrame(gui.Swerlein):
         alg.reset(self)
          
     def AboutOnMenuSelection( self, event ):
-        gui.About(None).Show(True)
+        gui.About(None).Show(True) #Display a window containing information about the software.
         
     def QueryValidationOnMenuSelection( self, event ):
-        self.CodeValidation.Show(True)
-        print(self.CodeValidation.QueryValidate.GetValue())
+        self.CodeValidation = CodeValid(None)
+        self.CodeValidation.Show(True) #Display the already created CodeValidation frame.
 
 #mandatory in wx, create an app, False stands for not deteriction stdin/stdout
 #refer manual for details
