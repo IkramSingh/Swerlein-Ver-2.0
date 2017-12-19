@@ -26,7 +26,7 @@ class Swerlein ( wx.Frame ):
 		
 		gSizer4 = wx.GridSizer( 0, 4, 0, 0 )
 		
-		self.m_staticText99 = wx.StaticText( self, wx.ID_ANY, u"Port", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText99 = wx.StaticText( self, wx.ID_ANY, u"GPIB Address", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText99.Wrap( -1 )
 		self.m_staticText99.SetFont( wx.Font( wx.NORMAL_FONT.GetPointSize(), 70, 90, 92, False, wx.EmptyString ) )
 		self.m_staticText99.SetForegroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_BTNTEXT ) )
