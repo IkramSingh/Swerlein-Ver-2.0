@@ -242,7 +242,7 @@ def run(self,Nharm_set,Nbursts_set,Acdc,Ac,MeanV,row_inc,filename):
     ######   setup machine
     self.instrument.write('DISP OFF,SETUP')
     self.instrument.write('TARM HOLD;AZERO OFF;DCV '+str(Range))
-    if self.CodeValidation.GetValue()==True:
+    if self.CodeValidation.QueryValidate.GetValue()==True:
         tarm = str(self.instrument.query('TARM?')) #Check to see if 3458A is set to 'HOLD' mode
         query_file = open("Code_Validation (Ver 2.0)"+str(self.date)+".txt","a") #Store TARM? validation in txt file.
         query_file.write("\nQuery : TARM? = " + tarm)

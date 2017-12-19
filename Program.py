@@ -19,8 +19,12 @@ import visa
 
 #Inherit from the CodeValidation Frame in gui.py.
 class CodeValid(gui.CodeValidation):
+    #Constructor
     def __init__(self,parent):
         gui.CodeValidation.__init__(self,parent)
+    
+    def CodeValidationOnClose( self, event ):
+        self.Show(False)
 
     def ValidateOnButtonClick(self, event):
         print(self.QueryValidate.GetValue())
@@ -39,6 +43,7 @@ class CalcFrame(gui.Swerlein):
             pass
         gui.Swerlein.__init__(self,parent)
         self.CodeValidation = CodeValid(None) #Create new code validation frame. All options set to False by default.
+        print(self.CodeValidation.QueryValidate.GetValue())
 
     def RunFunc(self,event):
         #Create a new workbook in Excel.
@@ -79,7 +84,7 @@ class CalcFrame(gui.Swerlein):
         voltage_list=[0.65,0.512,0.001,1.0,0.023]
         #[0.11,0.179,0.201,0.250,0.293,0.001,0.023,0.041,0.065,0.084,0.321,0.369,0.444,0.512,0.583,0.607,0.722,0.821,0.908,0.937,1.00,1.102,1.142]
         for v in voltage_list:
-            if self.CodeValidation.GetValue()==True:
+            if self.CodeValidation.QueryValidate.GetValue()==True:
                 query_file = open("Code_Validation (Ver 2.0)"+str(self.date)+".txt","a") #Create code_validation in txt file.
                 query_file.write("\n ---------------------"+str(v)+"V "+str(self.date)+"---------------------\n")
                 query_file.close()

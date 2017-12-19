@@ -189,7 +189,7 @@ class Swerlein ( wx.Frame ):
 class About ( wx.Dialog ):
 	
 	def __init__( self, parent ):
-		wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = u"About", pos = wx.DefaultPosition, size = wx.Size( 269,269 ), style = wx.DEFAULT_DIALOG_STYLE )
+		wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = u"About", pos = wx.DefaultPosition, size = wx.Size( 269,151 ), style = wx.DEFAULT_DIALOG_STYLE )
 		
 		self.SetSizeHintsSz( wx.DefaultSize, wx.DefaultSize )
 		
@@ -228,7 +228,7 @@ class About ( wx.Dialog ):
 class CodeValidation ( wx.Frame ):
 	
 	def __init__( self, parent ):
-		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = wx.EmptyString, pos = wx.DefaultPosition, size = wx.Size( 250,200 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
+		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = wx.EmptyString, pos = wx.DefaultPosition, size = wx.Size( 204,180 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
 		
 		self.SetSizeHintsSz( wx.DefaultSize, wx.DefaultSize )
 		
@@ -240,7 +240,7 @@ class CodeValidation ( wx.Frame ):
 		gSizer4.Add( self.QueryValidate, 0, wx.ALL, 5 )
 		
 		self.Validate = wx.Button( self, wx.ID_ANY, u"Validate", wx.DefaultPosition, wx.DefaultSize, 0 )
-		gSizer4.Add( self.Validate, 0, wx.ALL, 5 )
+		gSizer4.Add( self.Validate, 0, wx.ALL|wx.ALIGN_CENTER_HORIZONTAL|wx.ALIGN_BOTTOM, 5 )
 		
 		
 		self.SetSizer( gSizer4 )
@@ -249,6 +249,7 @@ class CodeValidation ( wx.Frame ):
 		self.Centre( wx.BOTH )
 		
 		# Connect Events
+		self.Bind( wx.EVT_CLOSE, self.CodeValidationOnClose )
 		self.Validate.Bind( wx.EVT_BUTTON, self.ValidateOnButtonClick )
 	
 	def __del__( self ):
@@ -256,6 +257,9 @@ class CodeValidation ( wx.Frame ):
 	
 	
 	# Virtual event handlers, overide them in your derived class
+	def CodeValidationOnClose( self, event ):
+		event.Skip()
+	
 	def ValidateOnButtonClick( self, event ):
 		event.Skip()
 	
