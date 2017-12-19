@@ -595,31 +595,35 @@ def run(self,Nharm_set,Nbursts_set,Acdc,Ac,MeanV,row_inc,filename):
     if Force==False:
         print("Ncycles = " + str(Ncycle))
     print("Nbursts = " + str(Nbursts)+"\n")
-    #The following Code records data measurements to an Excel Sheet.
-    wb=load_workbook(filename) #Open Excel file
-    ws=wb.active #Make it active to work in
+    if self.CodeValidation.validate==False:
+        #The following Code records data measurements to an Excel Sheet.
+        wb=load_workbook(filename) #Open Excel file
+        ws=wb.active #Make it active to work in
     
     if Acdc==True:
-        ws.cell(row=row_inc,column=1,value=Dcrms) #First column
+        if self.CodeValidation.validate==False:
+            ws.cell(row=row_inc,column=1,value=Dcrms) #First column
     if Ac == True:
-        ws.cell(row=row_inc,column=1,value=Acrms) #First column
+        if self.CodeValidation.validate==False:
+            ws.cell(row=row_inc,column=1,value=Acrms) #First column
     if MeanV == True:
-        ws.cell(row=row_inc,column=1,value=np.mean(np.abs(self.MemArray))) #First column
-    
-    ws.cell(row=row_inc,column=2,value=Bw_corr) #Second column
-    ws.cell(row=row_inc,column=3,value=Freq) #Third column
-    ws.cell(row=row_inc,column=4,value=Num) #Fourth column
-    ws.cell(row=row_inc,column=5,value=Tsamp) #Fifth column
-    if Force==False:
-        ws.cell(row=row_inc,column=6,value=Ncycle) #Sixth column
-    ws.cell(row=row_inc,column=7,value=Nbursts) #Eight column
-    ws.cell(row=row_inc,column=8,value=self.ForceParameters.GetValue()) #Seventh column
-    date_and_time = str(time.asctime())
-    newtime = date_and_time[11:20]
-    ws.cell(row=row_inc,column=9,value=newtime) #Ninth column
-    row_inc+=1 #Go to next row
-    wb.template=False #Make sure Excel file is saved as document not template
-    wb.save(filename) #Save file with same name
+        if self.CodeValidation.validate==False:
+            ws.cell(row=row_inc,column=1,value=np.mean(np.abs(self.MemArray))) #First column
+    if self.CodeValidation.validate==False:
+        ws.cell(row=row_inc,column=2,value=Bw_corr) #Second column
+        ws.cell(row=row_inc,column=3,value=Freq) #Third column
+        ws.cell(row=row_inc,column=4,value=Num) #Fourth column
+        ws.cell(row=row_inc,column=5,value=Tsamp) #Fifth column
+        if Force==False:
+            ws.cell(row=row_inc,column=6,value=Ncycle) #Sixth column
+        ws.cell(row=row_inc,column=7,value=Nbursts) #Eight column
+        ws.cell(row=row_inc,column=8,value=self.ForceParameters.GetValue()) #Seventh column
+        date_and_time = str(time.asctime())
+        newtime = date_and_time[11:20]
+        ws.cell(row=row_inc,column=9,value=newtime) #Ninth column
+        row_inc+=1 #Go to next row
+        wb.template=False #Make sure Excel file is saved as document not template
+        wb.save(filename) #Save file with same name
     
     self.times.append(float(time.time()))
 

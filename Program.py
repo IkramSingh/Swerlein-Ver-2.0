@@ -22,14 +22,17 @@ class CodeValid(gui.CodeValidation):
     #Constructor
     def __init__(self,parent):
         gui.CodeValidation.__init__(self,parent)
+        self.validate = False #Validate option not active (by default).
     
     def CodeValidationOnClose( self, event ):
-        self.Show(False)
+        #Reset Validate Options to Default value (False).
+        self.validate = False 
+        self.QueryValidate.SetValue(False)
+        self.Show(False) #Stop displaying code validation frame.
 
     def ValidateOnButtonClick(self, event):
-        print(self.QueryValidate.GetValue())
+        self.validate = True #Make validate option active.
 
-       
 #Inherit from the Swerlein Frame created in gui.py.
 class CalcFrame(gui.Swerlein):
     
@@ -44,17 +47,19 @@ class CalcFrame(gui.Swerlein):
         gui.Swerlein.__init__(self,parent)
         self.CodeValidation = CodeValid(None) #Create new code validation frame. All options set to False by default.
         print(self.CodeValidation.QueryValidate.GetValue())
+        print(self.CodeValidation.validate)
 
     def RunFunc(self,event):
         #Create a new workbook in Excel.
-        self.date=str(datetime.date.today())
-        filename='data'+str(self.date)+str(self.Excel_Filename.GetValue())+'.xlsx'
-        #Comment out following three lines if wanting to continue working in an existing Excel file.
-        #Remember to change the filename parameter initialized previously to the existing filename
-        #As well as changing self.row_inc to the last+1 elemt in the existing file
-        wb = Workbook()
-        wb.template=False
-        wb.save(filename)
+        if self.CodeValidation.validate==False:
+            self.date=str(datetime.date.today())
+            filename='data'+str(self.date)+str(self.Excel_Filename.GetValue())+'.xlsx'
+            #Comment out following three lines if wanting to continue working in an existing Excel file.
+            #Remember to change the filename parameter initialized previously to the existing filename
+            #As well as changing self.row_inc to the last+1 elemt in the existing file
+            wb = Workbook()
+            wb.template=False
+            wb.save(filename)
         self.filename=filename
         remote = visa.ResourceManager() #Gets remote access of the 5730A Calibrator 
         supply = remote.open_resource('GPIB0::16::INSTR')
@@ -66,20 +71,21 @@ class CalcFrame(gui.Swerlein):
         
         alg.OnStart(self,self.Port.GetValue())
         n = int(self.NumReadings.GetValue())
-        wb=load_workbook(self.filename) #Open Excel file
-        ws=wb.active #Make it active to work in
-        #Add tiles to the columns
-        ws.cell(row=1,column=1,value="Voltage")
-        ws.cell(row=1,column=2,value="Bw_corr")
-        ws.cell(row=1,column=3,value="Frequency")
-        ws.cell(row=1,column=4,value="# of Samples")
-        ws.cell(row=1,column=5,value="Sample Spacing")
-        ws.cell(row=1,column=6,value="# of 1/Freq to Sample")
-        ws.cell(row=1,column=7,value="# of bursts")
-        ws.cell(row=1,column=8,value="Parameters Forced?")
-        ws.cell(row=1,column=9,value="Time")
-        wb.template=False #Make sure Excel file is saved as document not template
-        wb.save(self.filename) #Save file with same name
+        if self.CodeValidation.validate==False:
+            wb=load_workbook(self.filename) #Open Excel file
+            ws=wb.active #Make it active to work in
+            #Add tiles to the columns
+            ws.cell(row=1,column=1,value="Voltage")
+            ws.cell(row=1,column=2,value="Bw_corr")
+            ws.cell(row=1,column=3,value="Frequency")
+            ws.cell(row=1,column=4,value="# of Samples")
+            ws.cell(row=1,column=5,value="Sample Spacing")
+            ws.cell(row=1,column=6,value="# of 1/Freq to Sample")
+            ws.cell(row=1,column=7,value="# of bursts")
+            ws.cell(row=1,column=8,value="Parameters Forced?")
+            ws.cell(row=1,column=9,value="Time")
+            wb.template=False #Make sure Excel file is saved as document not template
+            wb.save(self.filename) #Save file with same name
         
         voltage_list=[0.65,0.512,0.001,1.0,0.023]
         #[0.11,0.179,0.201,0.250,0.293,0.001,0.023,0.041,0.065,0.084,0.321,0.369,0.444,0.512,0.583,0.607,0.722,0.821,0.908,0.937,1.00,1.102,1.142]
