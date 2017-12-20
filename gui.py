@@ -239,6 +239,11 @@ class CodeValidation ( wx.Frame ):
 		
 		gSizer4.Add( self.QueryValidate, 0, wx.ALL, 5 )
 		
+		self.MathValidate = wx.CheckBox( self, wx.ID_ANY, u"Math Validate", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.MathValidate.SetFont( wx.Font( wx.NORMAL_FONT.GetPointSize(), 70, 90, 92, False, wx.EmptyString ) )
+		
+		gSizer4.Add( self.MathValidate, 0, wx.ALL, 5 )
+		
 		self.Validate = wx.Button( self, wx.ID_ANY, u"Validate", wx.DefaultPosition, wx.DefaultSize, 0 )
 		gSizer4.Add( self.Validate, 0, wx.ALL|wx.ALIGN_CENTER_HORIZONTAL|wx.ALIGN_BOTTOM, 5 )
 		
@@ -250,6 +255,7 @@ class CodeValidation ( wx.Frame ):
 		
 		# Connect Events
 		self.Bind( wx.EVT_CLOSE, self.CodeValidationOnClose )
+		self.MathValidate.Bind( wx.EVT_CHECKBOX, self.MathValidateOnCheckBox )
 		self.Validate.Bind( wx.EVT_BUTTON, self.ValidateOnButtonClick )
 	
 	def __del__( self ):
@@ -258,6 +264,9 @@ class CodeValidation ( wx.Frame ):
 	
 	# Virtual event handlers, overide them in your derived class
 	def CodeValidationOnClose( self, event ):
+		event.Skip()
+	
+	def MathValidateOnCheckBox( self, event ):
 		event.Skip()
 	
 	def ValidateOnButtonClick( self, event ):
