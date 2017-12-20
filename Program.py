@@ -32,6 +32,33 @@ class CodeValid(gui.CodeValidation):
 
     def ValidateOnButtonClick(self, event):
         self.validate = True #Make validate option active.
+        remote = visa.ResourceManager() #Gets remote access of the 5730A Calibrator 
+        supply = remote.open_resource('GPIB0::16::INSTR')
+        
+        Acdc = frame.ACDC.GetValue()
+        Ac = frame.AC.GetValue()
+        Mean = frame.MEAN.GetValue()
+##         Mem = self.memory.GetValue()
+        
+        alg.OnStart(frame,frame.Port.GetValue())
+        n = int(frame.NumReadings.GetValue())
+        frame.date=str(datetime.date.today())
+        voltage_list=[0.65,0.512,0.001,1.0,0.023]
+        #[0.11,0.179,0.201,0.250,0.293,0.001,0.023,0.041,0.065,0.084,0.321,0.369,0.444,0.512,0.583,0.607,0.722,0.821,0.908,0.937,1.00,1.102,1.142]
+        for v in voltage_list:
+            if self.QueryValidate.GetValue()==True:
+                query_file = open("Code_Validation (Ver 2.0)"+str(frame.date)+".txt","a") #Create code_validation in txt file.
+                query_file.write("\n ---------------------"+str(v)+"V "+str(frame.date)+"---------------------\n")
+                query_file.close()
+            supply.write("OUT "+str(v)+"V,200.0HZ")
+            for i in range (0,n):
+                alg.run(frame,float(frame.Harmonics.GetValue()),float(frame.Bursts.GetValue()),Acdc,Ac,Mean,frame.row_inc,"" )
+                i = i+1
+                frame.row_inc = frame.row_inc + 1
+        
+        winsound.Beep(2500,1000)
+        frame.row_inc=2 #Reset to Row 2 for next Excel file.
+        print("\n DONE-----DONE-----DONE-----DONE-----DONE")
 
 #Inherit from the Swerlein Frame created in gui.py.
 class CalcFrame(gui.Swerlein):
@@ -60,7 +87,7 @@ class CalcFrame(gui.Swerlein):
             wb = Workbook()
             wb.template=False
             wb.save(filename)
-        self.filename=filename
+            self.filename=filename
         remote = visa.ResourceManager() #Gets remote access of the 5730A Calibrator 
         supply = remote.open_resource('GPIB0::16::INSTR')
         
