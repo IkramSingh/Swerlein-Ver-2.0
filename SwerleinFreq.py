@@ -631,7 +631,7 @@ def run(self,Nharm_set,Nbursts_set,Acdc,Ac,MeanV,row_inc,filename):
         ws.cell(row=23,column=2,value=Sinc),ws.cell(row=24,column=2,value=Y),ws.cell(row=25,column=2,value=Sinc2),ws.cell(row=26,column=2,value=Sincerr),ws.cell(row=27,column=2,value=Sinc3),ws.cell(row=28,column=2,value=Harm_er),ws.cell(row=29,column=2,value=Dist)
         ws.cell(row=30,column=2,value=Tim_er),ws.cell(row=31,column=2,value=Limit),ws.cell(row=32,column=2,value=Noiseraw),ws.cell(row=33,column=2,value=Noise),ws.cell(row=34,column=2,value=Rsource),ws.cell(row=35,column=2,value=Cload),ws.cell(row=36,column=2,value=Df)
         ws.cell(row=37,column=2,value=Df_err),ws.cell(row=38,column=2,value=Err),ws.cell(row=39,column=2,value=Sum),ws.cell(row=40,column=2,value=Sumsq),ws.cell(row=41,column=2,value=Delay),ws.cell(row=42,column=2,value=Sdev),ws.cell(row=43,column=2,value=Mean)
-        ws.cell(row=44,column=2,value=Temp),ws.cell(row=45,column=2,value=Dcrms),ws.cell(row=46,column=2,value=Dc),ws.cell(row=47,column=2,value=Dcrms)
+        ws.cell(row=44,column=2,value=Temp),ws.cell(row=45,column=2,value=Dcrms),ws.cell(row=46,column=2,value=Dc),ws.cell(row=47,column=2,value=Acrms)
         wb.template=False #Make sure Excel file is saved as document not template
         wb.save(self.filename2) #Save file with same name
     self.times.append(float(time.time()))
