@@ -255,7 +255,6 @@ class CodeValidation ( wx.Frame ):
 		
 		# Connect Events
 		self.Bind( wx.EVT_CLOSE, self.CodeValidationOnClose )
-		self.MathValidate.Bind( wx.EVT_CHECKBOX, self.MathValidateOnCheckBox )
 		self.Validate.Bind( wx.EVT_BUTTON, self.ValidateOnButtonClick )
 	
 	def __del__( self ):
@@ -264,9 +263,6 @@ class CodeValidation ( wx.Frame ):
 	
 	# Virtual event handlers, overide them in your derived class
 	def CodeValidationOnClose( self, event ):
-		event.Skip()
-	
-	def MathValidateOnCheckBox( self, event ):
 		event.Skip()
 	
 	def ValidateOnButtonClick( self, event ):

@@ -193,7 +193,6 @@ def run(self,Nharm_set,Nbursts_set,Acdc,Ac,MeanV,row_inc,filename):
             Tsamptemp=(1e-7)*int(1.0/2.0/Nharm/Freq/(1e-7)+0.5)
             Burst_time=Submeas_time*Tsamptemp/(0.0015+Tsamptemp)
             Ncycle=int(Burst_time*Freq+1) ##0.5 to 1
-
             Num=int(Ncycle/Freq/Tsamptemp+0.5)
             #print("Num: "+str(Num))
             
@@ -207,7 +206,7 @@ def run(self,Nharm_set,Nbursts_set,Acdc,Ac,MeanV,row_inc,filename):
             if Tsamp-Tsamptemp<(1e-7):
                 #print("Tsamp increased from "+str(Tsamp)+"to "+str((Tsamp+1e-7)))
                 Tsamp=Tsamp+1e-7
-                
+
         Aper=Tsamp-(3e-5)
         Num=int(Ncycle/Freq/Tsamp+0.5)
         #print('NEW NUM '+str(Num))
@@ -550,12 +549,10 @@ def run(self,Nharm_set,Nbursts_set,Acdc,Ac,MeanV,row_inc,filename):
 
 
         Sdev=Sdev*np.sqrt((Num-1.0)/Num)     #CORRECT SDEV FORMULA
-        
         Sumsq=Sumsq+Sdev*Sdev+Mean*Mean
         Sum=Sum+Mean
         Temp=Sdev*Bw_corr/Sinc
         Temp=Range/(1e+7)*int(Temp*(1e+7)/Range)#6 DIGIT TRUNCATION
-        
         #print("Sdev: "+str(Sdev))
         #print("Mean: "+str(Mean))
         #print("RMS: "+str(np.sqrt(Sdev**2+Mean**2)))
@@ -624,6 +621,18 @@ def run(self,Nharm_set,Nbursts_set,Acdc,Ac,MeanV,row_inc,filename):
         row_inc+=1 #Go to next row
         wb.template=False #Make sure Excel file is saved as document not template
         wb.save(filename) #Save file with same name
-    
+    if self.CodeValidation.MathValidate.GetValue()==True:
+        wb=load_workbook(self.filename2) #Open Excel file
+        ws=wb.active #Make it active to work in
+        ws.cell(row=1,column=1,value="Python Calculated Variable Values")
+        ws.cell(row=2,column=2,value=RMS),ws.cell(row=3,column=2,value=Range),ws.cell(row=4,column=2,value=Expect_Freq),ws.cell(row=5,column=2,value=Freq),ws.cell(row=6,column=2,value=Aper),ws.cell(row=7,column=2,value=Tsamp),ws.cell(row=8,column=2,value=Submeas_time)
+        ws.cell(row=9,column=2,value=Burst_time),ws.cell(row=10,column=2,value=Approxnum),ws.cell(row=11,column=2,value=Ncycle),ws.cell(row=12,column=2,value=Nharm),ws.cell(row=13,column=2,value=Tsamptemp),ws.cell(row=14,column=2,value=Num),ws.cell(row=15,column=2,value=K)
+        ws.cell(row=16,column=2,value=Bw_corr),ws.cell(row=17,column=2,value=Base),ws.cell(row=18,column=2,value=X1),ws.cell(row=19,column=2,value=X2),ws.cell(row=20,column=2,value=Vmeter_bw),ws.cell(row=21,column=2,value=Aper_er),ws.cell(row=22,column=2,value=X)
+        ws.cell(row=23,column=2,value=Sinc),ws.cell(row=24,column=2,value=Y),ws.cell(row=25,column=2,value=Sinc2),ws.cell(row=26,column=2,value=Sincerr),ws.cell(row=27,column=2,value=Sinc3),ws.cell(row=28,column=2,value=Harm_er),ws.cell(row=29,column=2,value=Dist)
+        ws.cell(row=30,column=2,value=Tim_er),ws.cell(row=31,column=2,value=Limit),ws.cell(row=32,column=2,value=Noiseraw),ws.cell(row=33,column=2,value=Noise),ws.cell(row=34,column=2,value=Rsource),ws.cell(row=35,column=2,value=Cload),ws.cell(row=36,column=2,value=Df)
+        ws.cell(row=37,column=2,value=Df_err),ws.cell(row=38,column=2,value=Err),ws.cell(row=39,column=2,value=Sum),ws.cell(row=40,column=2,value=Sumsq),ws.cell(row=41,column=2,value=Delay),ws.cell(row=42,column=2,value=Sdev),ws.cell(row=43,column=2,value=Mean)
+        ws.cell(row=44,column=2,value=Temp),ws.cell(row=45,column=2,value=Dcrms),ws.cell(row=46,column=2,value=Dc),ws.cell(row=47,column=2,value=Dcrms)
+        wb.template=False #Make sure Excel file is saved as document not template
+        wb.save(self.filename2) #Save file with same name
     self.times.append(float(time.time()))
 
