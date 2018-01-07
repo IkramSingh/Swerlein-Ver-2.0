@@ -44,7 +44,6 @@ class CodeValid(gui.CodeValidation):
         n = int(frame.NumReadings.GetValue())
         frame.date=str(datetime.date.today())
         voltage_list=[0.65]
-        #[0.11,0.179,0.201,0.250,0.293,0.001,0.023,0.041,0.065,0.084,0.321,0.369,0.444,0.512,0.583,0.607,0.722,0.821,0.908,0.937,1.00,1.102,1.142]
         for v in voltage_list:
             if self.QueryValidate.GetValue()==True:
                 query_file = open("Code_Validation (Ver 2.0)"+str(frame.date)+".txt","a") #Create code_validation in txt file.
@@ -69,7 +68,7 @@ class CodeValid(gui.CodeValidation):
                 ws.cell(row=44,column=1,value="Temp"),ws.cell(row=45,column=1,value="Dcrms"),ws.cell(row=46,column=1,value="Dc"),ws.cell(row=47,column=1,value="Acrms")
                 wb.template=False #Make sure Excel file is saved as document not template
                 wb.save(frame.filename2) #Save file with same name
-            supply.write("OUT "+str(v)+"V,50.0HZ")
+                supply.write("OUT "+str(v)+"V,50.0HZ")
             for i in range (0,n):
                 alg.run(frame,float(frame.Harmonics.GetValue()),float(frame.Bursts.GetValue()),Acdc,Ac,Mean,frame.row_inc,"" )
                 i = i+1
@@ -99,8 +98,6 @@ class CalcFrame(gui.Swerlein):
             pass
         gui.Swerlein.__init__(self,parent)
         self.CodeValidation = CodeValid(None) #Create new code validation frame. All options set to False by default.
-        print(self.CodeValidation.QueryValidate.GetValue())
-        print(self.CodeValidation.validate)
 
     def RunFunc(self,event):
         #Create a new workbook in Excel.
@@ -114,8 +111,8 @@ class CalcFrame(gui.Swerlein):
             wb.template=False
             wb.save(filename)
             self.filename=filename
-        remote = visa.ResourceManager() #Gets remote access of the 5730A Calibrator 
-        supply = remote.open_resource('GPIB0::16::INSTR')
+        #remote = visa.ResourceManager() #Gets remote access of the 5730A Calibrator 
+        #supply = remote.open_resource('GPIB0::16::INSTR')
         
         Acdc = self.ACDC.GetValue()
         Ac = self.AC.GetValue()
@@ -140,18 +137,17 @@ class CalcFrame(gui.Swerlein):
             wb.template=False #Make sure Excel file is saved as document not template
             wb.save(self.filename) #Save file with same name
         
-        voltage_list=[0.65,0.512,0.001,1.0,0.023]
-        #[0.11,0.179,0.201,0.250,0.293,0.001,0.023,0.041,0.065,0.084,0.321,0.369,0.444,0.512,0.583,0.607,0.722,0.821,0.908,0.937,1.00,1.102,1.142]
-        for v in voltage_list:
-            if self.CodeValidation.QueryValidate.GetValue()==True:
-                query_file = open("Code_Validation (Ver 2.0)"+str(self.date)+".txt","a") #Create code_validation in txt file.
-                query_file.write("\n ---------------------"+str(v)+"V "+str(self.date)+"---------------------\n")
-                query_file.close()
-            supply.write("OUT "+str(v)+"V,50.0HZ")
-            for i in range (0,n):
-                alg.run(self,float(self.Harmonics.GetValue()),float(self.Bursts.GetValue()),Acdc,Ac,Mean,self.row_inc,self.filename )
-                i = i+1
-                self.row_inc = self.row_inc + 1
+        #voltage_list=[0.65,0.512,0.001,1.0,0.023]
+        #for v in voltage_list:
+        if self.CodeValidation.QueryValidate.GetValue()==True:
+            query_file = open("Code_Validation (Ver 2.0)"+str(self.date)+".txt","a") #Create code_validation in txt file.
+            query_file.write("\n ---------------------"+str(v)+"V "+str(self.date)+"---------------------\n")
+            query_file.close()
+        #supply.write("OUT "+str(v)+"V,50.0HZ")
+        for i in range (0,n):
+            alg.run(self,float(self.Harmonics.GetValue()),float(self.Bursts.GetValue()),Acdc,Ac,Mean,self.row_inc,self.filename )
+            i = i+1
+            self.row_inc = self.row_inc + 1
         
         winsound.Beep(2500,1000)
         self.row_inc=2 #Reset to Row 2 for next Excel file.
